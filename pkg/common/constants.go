@@ -33,3 +33,25 @@ const (
 	// Label that is set on a disk when it is used by a 'multi-zone' VolumeHandle
 	MultiZoneLabel = "goog-gke-multi-zone"
 )
+
+// Keys for disk type topology.
+var DiskTypeTopologyKeyMap = map[string]string{
+	"pd-balanced":          "topology.gke.test.io/pd-balanced",
+	"pd-standard":          "topology.gke.test.io/pd-standard",
+	"pd-extreme":           "topology.gke.test.io/pd-extreme",
+	"hyperdisk-throughput": "topology.gke.test.io/pd-hyperdisk-throughput",
+	"hyperdisk-extreme":    "topology.gke.test.io/pd-hyperdisk-extreme",
+	"hyperdisk-balanced":   "topology.gke.test.io/pd-hyperdisk-balanced",
+	"regional-pd":          "topology.gke.test.io/regional-pd",
+}
+
+// Keys for disk type topology.
+var DiskTypeTopologyKeys = []string{
+	"topology.gke.test.io/pd-balanced",
+	"topology.gke.test.io/pd-standard",
+	"topology.gke.test.io/pd-extreme",
+	"topology.gke.test.io/pd-hyperdisk-throughput",
+	"topology.gke.test.io/pd-hyperdisk-extreme",
+	"topology.gke.test.io/pd-hyperdisk-balanced",
+	"topology.gke.test.io/regional-pd",
+}

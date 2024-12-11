@@ -2300,6 +2300,10 @@ func getZonesFromTopology(topList []*csi.Topology) ([]string, error) {
 func getZoneFromSegment(seg map[string]string) (string, error) {
 	var zone string
 	for k, v := range seg {
+		if slices.Contains(common.DiskTypeTopologyKeys, k) {
+			klog.Infof("disk topology key used: %v", k)
+			continue
+		}
 		switch k {
 		case common.TopologyKeyZone:
 			zone = v
@@ -2402,9 +2406,14 @@ func extractVolumeContext(context map[string]string) (*PDCSIContext, error) {
 
 func generateCreateVolumeResponseWithVolumeId(disk *gce.CloudDisk, zones []string, params common.DiskParameters, volumeId string) *csi.CreateVolumeResponse {
 	tops := []*csi.Topology{}
+
+	var diskTypeTopologyKey = common.DiskTypeTopologyKeyMap[params.DiskType]
+
+	klog.Infof("disk type topology key: %v", diskTypeTopologyKey)
+
 	for _, zone := range zones {
 		tops = append(tops, &csi.Topology{
-			Segments: map[string]string{common.TopologyKeyZone: zone},
+			Segments: map[string]string{common.TopologyKeyZone: zone, diskTypeTopologyKey: "true"},
 		})
 	}
 	realDiskSizeBytes := common.GbToBytes(disk.GetSizeGb())
